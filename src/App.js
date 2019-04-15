@@ -1,28 +1,58 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import todosService from './services/todos-service'
+
+import NewTodo from './components/NewTodo'
+import ListTodos from './components/ListTodos'
+
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    todos: [],
+    status: 'isLoading'
+  }
+
+  componentDidMount = async () => {
+    try {
+      const todos = await todosService.getAllTodos()
+      this.setState({
+        todos,
+        status: 'isReady'
+      })
+
+    } catch (error) {
+      this.setState({
+        status: 'hasError'
+      })
+    }
+  }
+
+  renderNewTodo = (todo) => {
+    this.setState({
+      todos: [...this.state.todos, todo]
+    })
+  }
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    // eslint-disable-next-line default-case
+    switch (this.state.status) {
+      case 'isReady':
+        return (
+          <>
+            <h1>Todos</h1>
+            <NewTodo renderNewTodo = {this.renderNewTodo} />
+            <ul>
+              <ListTodos todos = {this.state.todos} /> 
+            </ul>
+          </>
+        )
+      case 'isLoading':
+        return <p>Loading...</p>
+      case 'hasError':
+        return <p>Error!</p>
+    }
   }
 }
 
-export default App;
+export default App
