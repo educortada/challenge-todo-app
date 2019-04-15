@@ -14,19 +14,37 @@ class NewTodo extends Component {
     )
   }
 
-  handleOnSubmit = (event) => {
+  handleOnSubmit = async (event) => {
     event.preventDefault()
-    todosService.createTodo(this.state)
-    this.props.renderNewTodo(this.state)
+    const { title, body } = this.state
+    await todosService.createTodo({ title, body })
+    this.props.renderTodos()
   }
 
   render() {
     return (
-      <form onSubmit={this.handleOnSubmit} >
-        <input type="text" placeholder="title" name="title" onChange={this.handleChange} value={this.state.title} />
-        <input type="text" placeholder="description" name="body" onChange={this.handleChange} value={this.state.body} />
-        <button>New todo</button>
-      </form>
+      <section>
+        <div className="container">
+          <form onSubmit={this.handleOnSubmit}>
+            <div className="field">
+              <label class="label is-medium">Create new todo</label>
+              <div className="control">
+                <input className="input" type="text" placeholder="title" name="title" onChange={this.handleChange} value={this.state.title} />
+              </div>
+            </div>
+            <div className="field">
+              <div class="control">
+                <input className="input" type="text" placeholder="description" name="body" onChange={this.handleChange} value={this.state.body} />
+              </div>
+            </div>
+            <div className="field">
+              <div className="control">
+                <button className="button is-info">Add todo</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
     )
   }
 }

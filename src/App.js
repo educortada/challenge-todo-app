@@ -4,7 +4,8 @@ import todosService from './services/todos-service'
 import NewTodo from './components/NewTodo'
 import ListTodos from './components/ListTodos'
 
-import './App.css';
+import 'bulma/css/bulma.css'
+import './App.css'
 
 class App extends Component {
 
@@ -28,10 +29,18 @@ class App extends Component {
     }
   }
 
-  renderNewTodo = (todo) => {
-    this.setState({
-      todos: [...this.state.todos, todo]
-    })
+  renderTodos = async () => {
+    try {
+      const todos = await todosService.getAllTodos()
+      this.setState({
+        todos
+      })
+
+    } catch (error) {
+      this.setState({
+        status: 'hasError'
+      })
+    }
   }
 
   render() {
@@ -39,13 +48,10 @@ class App extends Component {
     switch (this.state.status) {
       case 'isReady':
         return (
-          <>
-            <h1>Todos</h1>
-            <NewTodo renderNewTodo = {this.renderNewTodo} />
-            <ul>
-              <ListTodos todos = {this.state.todos} /> 
-            </ul>
-          </>
+          <main>
+            <NewTodo renderTodos={this.renderTodos} />
+            <ListTodos todos={this.state.todos} renderTodos={this.renderTodos} />
+          </main>
         )
       case 'isLoading':
         return <p>Loading...</p>

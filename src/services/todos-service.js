@@ -17,6 +17,12 @@ class TodosService {
     return this.api.get('/todos')
       .then(({data}) => data)
   }
+
+  deleteTodo = (id) => {
+    return this.api.delete(`/todos/${id}`)
+      .then(({data}) => data)
+  }
+
 }
 
 const todosService = new TodosService()
