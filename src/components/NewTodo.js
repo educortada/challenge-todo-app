@@ -15,10 +15,15 @@ class NewTodo extends Component {
   }
 
   handleOnSubmit = async (event) => {
-    event.preventDefault()
-    const { title, body } = this.state
-    await todosService.createTodo({ title, body })
-    this.props.renderTodos()
+    try {
+      event.preventDefault()
+      const { title, body } = this.state
+      await todosService.createTodo({ title, body })
+      this.props.renderTodos()
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
@@ -27,13 +32,13 @@ class NewTodo extends Component {
         <div className="container">
           <form onSubmit={this.handleOnSubmit}>
             <div className="field">
-              <label class="label is-medium">Create new todo</label>
+              <label className="label is-medium">Create new todo</label>
               <div className="control">
                 <input className="input" type="text" placeholder="title" name="title" onChange={this.handleChange} value={this.state.title} />
               </div>
             </div>
             <div className="field">
-              <div class="control">
+              <div className="control">
                 <input className="input" type="text" placeholder="description" name="body" onChange={this.handleChange} value={this.state.body} />
               </div>
             </div>

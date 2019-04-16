@@ -15,12 +15,17 @@ class TodosService {
 
   getAllTodos = () => {
     return this.api.get('/todos')
-      .then(({data}) => data)
+      .then(({ data }) => data)
+  }
+
+  updateTodo = (id, todo) => {
+    return this.api.put(`/todos/${id}`, todo)
+      .then(({ data }) => data)
   }
 
   deleteTodo = (id) => {
     return this.api.delete(`/todos/${id}`)
-      .then(({data}) => data)
+      .then(({ data }) => data)
   }
 
 }

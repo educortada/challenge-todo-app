@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import todosService from '../services/todos-service'
+
+import Todo from './Todo'
 
 class ListTodos extends Component {
-
-  handleClickDelete = async (id) => {
-    await todosService.deleteTodo(id)
-    this.props.renderTodos()
-  }
 
   render() {
     return (
@@ -15,17 +11,11 @@ class ListTodos extends Component {
           <ul>
             {
               this.props.todos.map(todo => (
-                <li key={todo._id}>
-                  <article className="message is-info">
-                    <div className="message-header">
-                      <p>{todo.title}</p>
-                      <button onClick={() => { this.handleClickDelete(todo._id) }} className="delete"></button>
-                    </div>
-                    <div className="message-body">
-                      {todo.body}
-                    </div>
-                  </article>
-                </li>
+                <Todo
+                  key={todo._id}
+                  todo={todo}
+                  renderTodos={this.props.renderTodos}
+                />
               ))
             }
           </ul>
