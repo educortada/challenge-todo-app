@@ -6,12 +6,14 @@ class Todo extends Component {
   state = {
     title: '',
     body: '',
+    hasModified: false,
   }
 
   handleChange = (event) => {
-    this.setState(
-      { [event.target.name]: event.target.value }
-    )
+    this.setState({ 
+      [event.target.name]: event.target.value,
+      hasModified: true,
+    })
   }
 
   handleOnSubmit = async (id, event) => {
@@ -59,7 +61,9 @@ class Todo extends Component {
               </div>
               <div className="field">
                 <div className="control">
-                  <button className="button is-info">Update</button>
+                {
+                  (this.state.hasModified) ? <button className="button is-link">Update</button> : false
+                }
                 </div>
               </div>
             </form>
