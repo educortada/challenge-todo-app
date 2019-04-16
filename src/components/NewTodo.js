@@ -20,6 +20,10 @@ class NewTodo extends Component {
       const { title, body } = this.state
       await todosService.createTodo({ title, body })
       this.props.renderTodos()
+      this.setState({
+        title: '',
+        body: '',
+      })
 
     } catch (error) {
       console.log(error)
@@ -32,7 +36,7 @@ class NewTodo extends Component {
         <div className="container">
           <form onSubmit={this.handleOnSubmit}>
             <div className="field">
-              <label className="label is-medium">Create new todo</label>
+              <label className="label is-medium">New todo</label>
               <div className="control">
                 <input className="input" type="text" placeholder="title" name="title" onChange={this.handleChange} value={this.state.title} />
               </div>
@@ -44,7 +48,7 @@ class NewTodo extends Component {
             </div>
             <div className="field">
               <div className="control">
-                <button className="button is-info">Add todo</button>
+                <button className="button is-link">Create</button>
               </div>
             </div>
           </form>
