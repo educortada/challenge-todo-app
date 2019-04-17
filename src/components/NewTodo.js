@@ -32,7 +32,7 @@ class NewTodo extends Component {
 
   render() {
     return (
-      <section>
+      <section className="has-bg-white-ter">
         <div className="container">
           <form onSubmit={this.handleOnSubmit}>
             <div className="field">
@@ -48,7 +48,7 @@ class NewTodo extends Component {
             </div>
             <div className="field">
               <div className="control">
-                <button className="button is-link">Create</button>
+                <button className="button is-link has-text-weight-semibold">Create</button>
               </div>
             </div>
           </form>

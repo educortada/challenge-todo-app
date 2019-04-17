@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '@fortawesome/fontawesome-free/css/all.css'
+
 import todosService from './services/todos-service'
 
 import NewTodo from './components/NewTodo'
@@ -44,7 +46,6 @@ class App extends Component {
   }
 
   render() {
-    // eslint-disable-next-line default-case
     switch (this.state.status) {
       case 'isReady':
         return (
@@ -57,6 +58,8 @@ class App extends Component {
         return <p>Loading...</p>
       case 'hasError':
         return <p>Error!</p>
+      default:
+        return null
     }
   }
 }

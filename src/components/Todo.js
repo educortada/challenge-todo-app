@@ -6,11 +6,12 @@ class Todo extends Component {
   state = {
     title: this.props.todo.title,
     body: this.props.todo.body,
+    status: this.props.todo.status, // 'todo' or 'done'
     hasModified: false,
   }
 
   handleChange = (event) => {
-    this.setState({ 
+    this.setState({
       [event.target.name]: event.target.value,
       hasModified: true,
     })
@@ -41,12 +42,35 @@ class Todo extends Component {
     }
   }
 
+  handleClickDone = async (id) => {
+    try {
+      await this.setState({ status: 'done' })
+      const { title, body, status } = this.state
+      await todosService.updateTodo(id, { title, body, status })
+      this.props.renderTodos()
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
   render() {
     const { _id } = this.props.todo
+    let classNameStatus
+    (this.state.status === 'done') && (classNameStatus = 'is-done')
+
     return (
       <li>
-        <article className="message is-info">
+        <article className={`message is-info ${classNameStatus}`}>
           <div className="message-header">
+            {
+              this.state.status === 'todo' &&
+              <button onClick={() => { this.handleClickDone(_id) }} className="icon done">
+                <i className="fas fa-check"></i>
+              </button>
+            }
             <button onClick={() => { this.handleClickDelete(_id) }} className="delete"></button>
           </div>
           <div className="message-body">
@@ -63,7 +87,7 @@ class Todo extends Component {
               </div>
               <div className="field">
                 <div className="control">
-                  { (this.state.hasModified) ? <button className="button is-link">Update</button> : false }
+                  {this.state.hasModified && <button className="button is-link has-text-weight-semibold">Update</button>}
                 </div>
               </div>
             </form>
