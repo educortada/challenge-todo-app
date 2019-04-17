@@ -55,6 +55,7 @@ section{
 .done{
   height: 20px;
   width: 20px;
+  font-size: 0.75rem;
   background-color: rgba(10, 10, 10, 0.2);
   color: white;
   border: 0;
