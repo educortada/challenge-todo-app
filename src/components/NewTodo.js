@@ -6,6 +6,7 @@ class NewTodo extends Component {
   state = {
     title: '',
     body: '',
+    errorMessage: null,
   }
 
   handleChange = (event) => {
@@ -23,14 +24,21 @@ class NewTodo extends Component {
       this.setState({
         title: '',
         body: '',
+        errorMessage: null,
       })
 
     } catch (error) {
-      console.log(error)
+      if (error.response) {
+        // The request was made and the server responded with a status code that falls out of the range of 2xx
+        this.setState({
+          errorMessage: error.response.data.message
+        })
+      }
     }
   }
 
   render() {
+    const { errorMessage } = this.state
     return (
       <section className="has-bg-white-ter">
         <div className="container">
@@ -52,6 +60,12 @@ class NewTodo extends Component {
               </div>
             </div>
           </form>
+          {
+            errorMessage &&
+            <article className="message is-error">
+              <div className="message-body">{errorMessage}</div>
+            </article>
+          }
         </div>
       </section>
     )

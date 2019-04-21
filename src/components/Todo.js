@@ -8,6 +8,7 @@ class Todo extends Component {
     body: this.props.todo.body,
     status: this.props.todo.status, // 'todo' or 'done'
     hasModified: false,
+    errorMessage: null,
   }
 
   handleChange = (event) => {
@@ -25,10 +26,16 @@ class Todo extends Component {
       this.props.renderTodos()
       this.setState({
         hasModified: false,
+        errorMessage: null,
       })
 
     } catch (error) {
-      console.log(error)
+      if (error.response) {
+        // The request was made and the server responded with a status code that falls out of the range of 2xx
+        this.setState({
+          errorMessage: error.response.data.message
+        })
+      }
     }
   }
 
@@ -58,6 +65,7 @@ class Todo extends Component {
 
   render() {
     const { _id } = this.props.todo
+    const { errorMessage } = this.state
     let classNameStatus
     (this.state.status === 'done') && (classNameStatus = 'is-done')
 
@@ -91,6 +99,12 @@ class Todo extends Component {
                 </div>
               </div>
             </form>
+            {
+              errorMessage &&
+              <div className="message is-error">
+                <div className="message-body">{errorMessage}</div>
+              </div>
+            }
           </div>
         </article>
       </li>
